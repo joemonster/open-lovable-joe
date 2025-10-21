@@ -528,9 +528,9 @@ Tip: I automatically detect and install npm packages from your code imports (lik
                       packages: data.packages 
                     });
                   } else if (data.message.includes('Creating files') || data.message.includes('Applying')) {
-                    setCodeApplicationState({ 
+                    setCodeApplicationState({
                       stage: 'applying',
-                      filesGenerated: results.filesCreated 
+                      filesGenerated: data.filesCreated
                     });
                   }
                   break;
@@ -620,12 +620,9 @@ Tip: I automatically detect and install npm packages from your code imports (lik
       
       // Process final data
       if (finalData && finalData.type === 'complete') {
-        const data = {
+        const data: any = {
           success: true,
-          results: finalData.results,
-          explanation: finalData.explanation,
-          structure: finalData.structure,
-          message: finalData.message
+          ...finalData
         };
         
         if (data.success) {
@@ -1011,16 +1008,16 @@ Tip: I automatically detect and install npm packages from your code imports (lik
                       // Create a map of edited files
                       const editedFiles = new Set(
                         generationProgress.files
-                          .filter(f => f.edited)
+                          .filter((f: any) => f.edited)
                           .map(f => f.path)
                       );
                       
                       // Process all files from generation progress
-                      generationProgress.files.forEach(file => {
+                      generationProgress.files.forEach((file: any) => {
                         const parts = file.path.split('/');
                         const dir = parts.length > 1 ? parts.slice(0, -1).join('/') : '';
                         const fileName = parts[parts.length - 1];
-                        
+
                         if (!fileTree[dir]) fileTree[dir] = [];
                         fileTree[dir].push({
                           name: fileName,
@@ -1650,9 +1647,9 @@ Tip: I automatically detect and install npm packages from your code imports (lik
                               type: fileType,
                               completed: true,
                               edited: true
-                            },
+                            } as any,
                             ...updatedState.files.slice(existingFileIndex + 1)
-                          ];
+                          ] as any;
                         } else {
                           // Add new file
                           updatedState.files = [...updatedState.files, {
@@ -1661,7 +1658,7 @@ Tip: I automatically detect and install npm packages from your code imports (lik
                             type: fileType,
                             completed: true,
                             edited: false
-                          }];
+                          } as any] as any;
                         }
                         
                         // Only show file status if not in edit mode
@@ -2587,9 +2584,9 @@ Focus on the key sections and content, making it clean and modern.`;
                               type: fileType,
                               completed: true,
                               edited: true
-                            },
+                            } as any,
                             ...updatedState.files.slice(existingFileIndex + 1)
-                          ];
+                          ] as any;
                         } else {
                           // Add new file
                           updatedState.files = [...updatedState.files, {
@@ -2598,7 +2595,7 @@ Focus on the key sections and content, making it clean and modern.`;
                             type: fileType,
                             completed: true,
                             edited: false
-                          }];
+                          } as any] as any;
                         }
                         
                         // Only show file status if not in edit mode
@@ -2991,7 +2988,7 @@ Focus on the key sections and content, making it clean and modern.`;
                 >
                   {appConfig.ai.availableModels.map(model => (
                     <option key={model} value={model}>
-                      {appConfig.ai.modelDisplayNames[model] || model}
+                      {(appConfig.ai.modelDisplayNames as any)[model] || model}
                     </option>
                   ))}
                 </select>
@@ -3027,7 +3024,7 @@ Focus on the key sections and content, making it clean and modern.`;
           >
             {appConfig.ai.availableModels.map(model => (
               <option key={model} value={model}>
-                {appConfig.ai.modelDisplayNames[model] || model}
+                {(appConfig.ai.modelDisplayNames as any)[model] || model}
               </option>
             ))}
           </select>
